@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+    <meta name=renderer content=webkit>
+    <title>任务四：基础JavaScript练习（一）</title>
+</head>
+<body>
+    <style>
+    html,
+    body,
+    div,
+    span,
+    object,
+    iframe,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    blockquote,
+    pre,
+    abbr,
+    address,
+    cite,
+    code,
+    del,
+    dfn,
+    em,
+    img,
+    ins,
+    kbd,
+    q,
+    samp,
+    small,
+    strong,
+    sub,
+    sup,
+    var,
+    b,
+    i,
+    dl,
+    dt,
+    dd,
+    ol,
+    ul,
+    li,
+    fieldset,
+    form,
+    label,
+    legend,
+    table,
+    caption,
+    tbody,
+    tfoot,
+    thead,
+    tr,
+    th,
+    td,
+    article,
+    aside,
+    canvas,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section,
+    summary,
+    time,
+    mark,
+    audio,
+    video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font-size: 100%;
+        vertical-align: baseline;
+        background: transparent;
+    }
+    
+    body {
+        line-height: 1;
+    }
+    
+    :focus {
+        outline: 1;
+    }
+    
+    article,
+    aside,
+    canvas,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section,
+    summary {
+        display: block;
+    }
+    
+    nav ul {
+        list-style: none;
+    }
+    
+    blockquote,
+    q {
+        quotes: none;
+    }
+    
+    blockquote:before,
+    blockquote:after,
+    q:before,
+    q:after {
+        content: '';
+        content: none;
+    }
+    
+    a {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        vertical-align: baseline;
+        background: transparent;
+    }
+    
+    ins {
+        background-color: #ff9;
+        color: #000;
+        text-decoration: none;
+    }
+    
+    mark {
+        background-color: #ff9;
+        color: #000;
+        font-style: italic;
+        font-weight: bold;
+    }
+    
+    del {
+        text-decoration: line-through;
+    }
+    
+    abbr[title],
+    dfn[title] {
+        border-bottom: 1px dotted #000;
+        cursor: help;
+    }
+    
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+    
+    hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid #cccccc;
+        margin: 1em 0;
+        padding: 0;
+    }
+    
+    input,
+    select {
+        vertical-align: middle;
+    }
+    
+    .container {
+        margin: 0 auto;
+        width: 800px;
+        height: 500px;
+        border: 1px solid #ccc;
+    }
+    
+    .control {
+        margin: 0 auto;
+        width: 600px;
+        /* height: 300px; */
+        text-align: center;
+    }
+    
+    button {
+        border-radius: 2px;
+    }
+    
+    .result {
+        height: 300px;
+        border: 1px solid #d6d6d6;
+    }
+    
+    .array {
+        float: left;
+        list-style: none;
+        border-radius: 2px;
+        color: #fff;
+        background-color: #dd1616;
+        width: 20px;	
+        height: 24px;
+        margin-right: 10px;	
+    }
+    </style>
+    <div class="container">
+        <div class="control">
+            <input type="text" name="text" id="input">
+            <button type="button" id="leftin">左侧入</button>
+            <button type="button" id="rightin">右侧入</button>
+            <button type="button" id="leftout">左侧出</button>
+            <button type="button" id="rightout">右侧出</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+    var queue = []; /*初始空队列*/
+    var enter = document.getElementById('input').value; /*获取输入框的内容*/
+    var left_in = document.getElementById('leftin');
+    var right_in = document.getElementById('rightin');
+    var left_out = document.getElementById('leftout');
+    var right_out = document.getElementById('rightout');
+    function show_before(enter) {   //显示数组队列的内容
+        var li = document.createElement('li'); /* 创建li 元素 */
+        li.setAttribute("class", "array"); /*设置li的样式*/
+        li.innerHTML += enter; /*输入框的值写入li*/
+        var result = document.getElementById('result');
+        result.appendChild(li);
+    }
+        function show_after(enter) {   //显示数组队列的内容
+        var li = document.createElement('li'); /* 创建li 元素 */
+        li.setAttribute("class", "array"); /*设置li的样式*/
+        li.innerHTML += enter; /*输入框的值写入li*/
+        var result = document.getElementById('result');
+        result.insertBefore(li);
+    }
+    function leftIn(enter) {
+        queue.unshift(enter); //写入数组
+        show_before(queue); //显示结果
+    }
+    function rightIn(enter) {
+        queue.push(enter);
+        show_after(queue);
+    }
+    function leftOut(enter) {
+        queue.shift(enter);
+        show_before(queue);
+    }
+    function rightOut(enter) {
+        queue.pop(enter);
+        show_after(queue);
+    }
+    function deleteE(e) { //删除指定元素
+    }
+    //左侧入单击事件
+    left_in.onclick = function() {
+            leftIn(enter);
+        }
+        //右侧入单击事件
+    right_in.onclick = function() {
+            rightIn(enter);
+        }
+        //左侧出单击事件
+    left_out.onclick = function() {
+            leftOut(enter);
+        }
+        //右侧出单击事件
+    right_out.onclick = function() {
+        rightOut(enter);
+    }
+    </script>
+</body>
+</html>
