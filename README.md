@@ -6,3 +6,11 @@
 1. 目录```html_css``` 是html+css基础内容
 2. 目录```js```是JS基础内容
 3. 目录```comprehensive_practice```是基础综合练习（html+css+js基础）
+
+对应预览地址类似：
+https://chaihongjun.github.io/IFE2017/html_css/task1/index.html
+只需修改对应目录名称即可
+
+e.g:https://github.com/chaihongjun/IFE2017/tree/master/html_css/task10/
+这个是html和css基础部分任务10的源码，则对应的预览地址是：
+https://chaihongjun.github.io/IFE2017/html_css/task10/index.html
