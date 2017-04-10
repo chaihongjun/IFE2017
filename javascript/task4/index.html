@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
     <meta name=renderer content=webkit>
     <title>任务四：基础JavaScript练习（一）</title>
 </head>
+
 <body>
     <style>
     html,
@@ -193,7 +195,7 @@
     }
     
     button {
-        border-radius: 2px;
+        border-radius: 4px;
     }
     
     .result {
@@ -201,82 +203,119 @@
         border: 1px solid #d6d6d6;
     }
     
+    button:nth-of-type(2) {
+        margin-right: 50px;
+    }
+    
     .array {
         float: left;
-        list-style: none;
-        border-radius: 2px;
         color: #fff;
-        background-color: #dd1616;
-        width: 20px;	
-        height: 24px;
-        margin-right: 10px;	
+        background-color: #a00;
+        display: block;
+        margin-right: 15px;
+        text-align: center;
+        font-size: 16px;
+        padding: 10px;
     }
     </style>
     <div class="container">
         <div class="control">
             <input type="text" name="text" id="input">
-            <button type="button" id="leftin">左侧入</button>
-            <button type="button" id="rightin">右侧入</button>
-            <button type="button" id="leftout">左侧出</button>
-            <button type="button" id="rightout">右侧出</button>
+            <button type="button" id="leftin" onclick="btnClick(leftin);">左侧入</button>
+            <button type="button" id="rightin" onclick="btnClick(rightin);">右侧入</button>
+            <button type="button" id="leftout" onclick="btnClick(leftout);">左侧出</button>
+            <button type="button" id="rightout" onclick="btnClick(rightout);">右侧出</button>
         </div>
         <div class="result" id="result"></div>
     </div>
     <script>
-    var queue = []; /*初始空队列*/
-    var enter = document.getElementById('input').value; /*获取输入框的内容*/
-    var left_in = document.getElementById('leftin');
-    var right_in = document.getElementById('rightin');
-    var left_out = document.getElementById('leftout');
-    var right_out = document.getElementById('rightout');
-    function show_before(enter) {   //显示数组队列的内容
-        var li = document.createElement('li'); /* 创建li 元素 */
-        li.setAttribute("class", "array"); /*设置li的样式*/
-        li.innerHTML += enter; /*输入框的值写入li*/
-        var result = document.getElementById('result');
-        result.appendChild(li);
-    }
-        function show_after(enter) {   //显示数组队列的内容
-        var li = document.createElement('li'); /* 创建li 元素 */
-        li.setAttribute("class", "array"); /*设置li的样式*/
-        li.innerHTML += enter; /*输入框的值写入li*/
-        var result = document.getElementById('result');
-        result.insertBefore(li);
-    }
-    function leftIn(enter) {
-        queue.unshift(enter); //写入数组
-        show_before(queue); //显示结果
-    }
-    function rightIn(enter) {
-        queue.push(enter);
-        show_after(queue);
-    }
-    function leftOut(enter) {
-        queue.shift(enter);
-        show_before(queue);
-    }
-    function rightOut(enter) {
-        queue.pop(enter);
-        show_after(queue);
-    }
-    function deleteE(e) { //删除指定元素
-    }
-    //左侧入单击事件
-    left_in.onclick = function() {
-            leftIn(enter);
+    //存放输入的数据的数值，初始化为空
+    var queue = [];
+    //结果区域
+    var result = document.getElementById('result');
+    //按钮
+    var leftin = document.getElementById('leftin');
+    var rightin = document.getElementById('rightin');
+    var leftout = document.getElementById('leftout');
+    var rightout = document.getElementById('rightout');
+    //点击事件
+    function btnClick(btn) {
+        //输入框的值
+        var input = document.getElementById('input').value;
+        switch (btn) {
+            case leftin: //左入
+                if (!result.hasChildNodes()) { //如果是空的数组第一次添加，则直接创建元素并添加数值
+                    //创建元素
+                    var li = document.createElement('li');
+                    //元素添加到result里面
+                    result.appendChild(li);
+                    //元素增加样式
+                    li.setAttribute('class', 'array');
+                    //元素添加内容
+                    li.innerHTML = input;
+                    //数组开头添加
+                    queue.unshift(input); //数组开头添加
+
+                } else //如果已经有一些数据了，则在最前面添加
+                {
+                    var li = document.createElement('li');
+
+                    //    console.log(result.firstChild);  
+
+                    result.insertBefore(li, result.firstChild);
+                    //增加样式
+                    li.setAttribute('class', 'array');
+                    //元素添加内容
+                    li.innerHTML = input;
+                    queue.unshift(input); //数组开头添加
+                }
+                break;
+
+
+            case rightin: //右侧入，直接从后面添加即可
+
+                //创建元素
+                var li = document.createElement('li');
+                //元素添加到result里面
+                result.appendChild(li);
+                //元素增加样式
+                li.setAttribute('class', 'array');
+                //元素添加内容
+                li.innerHTML = input;
+                queue.push(input);
+
+
+                break;
+            case leftout: //左侧出，删除数组左边的元素
+
+                //获取当前数组第一个值
+                var firstValue = result.firstChild.innerHTML;
+
+                result.removeChild(result.firstChild);
+                queue.shift(); //数组开头删除
+
+                alert(firstValue);
+
+
+
+                break;
+
+            case rightout: //右侧出，从最后删除元素
+
+                var lastValue = result.lastChild.innerHTML;
+                result.removeChild(result.lastChild);
+                queue.pop(input);
+                alert(lastValue);
+                break;
+
+
         }
-        //右侧入单击事件
-    right_in.onclick = function() {
-            rightIn(enter);
-        }
-        //左侧出单击事件
-    left_out.onclick = function() {
-            leftOut(enter);
-        }
-        //右侧出单击事件
-    right_out.onclick = function() {
-        rightOut(enter);
+
     }
+
+
+    //点击元素删除
     </script>
 </body>
+
 </html>
